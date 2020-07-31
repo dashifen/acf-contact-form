@@ -1,0 +1,250 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "7d1c50a18847f78efbb15c3f819a200e",
+    "packages": [
+        {
+            "name": "dashifen/acf-agent",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/acf-agents.git",
+                "reference": "064f79a675c1c0cbdbb0f24390a69275cb38e25e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/acf-agents/zipball/064f79a675c1c0cbdbb0f24390a69275cb38e25e",
+                "reference": "064f79a675c1c0cbdbb0f24390a69275cb38e25e",
+                "shasum": ""
+            },
+            "require": {
+                "dashifen/wp-handler": "^10.0",
+                "php": ">=7.4"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\ACFAgent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "An Agent for use with one of my Handler packages that manages ACF data.",
+            "time": "2020-07-31T16:55:00+00:00"
+        },
+        {
+            "name": "dashifen/collection",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/collection.git",
+                "reference": "9aad3915d47ae4e29e44aae0a900a0619f40a357"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/collection/zipball/9aad3915d47ae4e29e44aae0a900a0619f40a357",
+                "reference": "9aad3915d47ae4e29e44aae0a900a0619f40a357",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Collection\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "An abstract object from which concrete collections can be built.",
+            "time": "2020-07-29T15:00:49+00:00"
+        },
+        {
+            "name": "dashifen/exception",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/exception.git",
+                "reference": "e795e1d973e9f781eb3a8371b6299c852eef9bc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/exception/zipball/e795e1d973e9f781eb3a8371b6299c852eef9bc1",
+                "reference": "e795e1d973e9f781eb3a8371b6299c852eef9bc1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Exception\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "homepage": "https://dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "a base class for exceptions in Dashifen's other work",
+            "time": "2019-12-12T14:26:49+00:00"
+        },
+        {
+            "name": "dashifen/repository",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/repository.git",
+                "reference": "83ce68039cc5c0cae1c35c3da80d9d3e23b57d37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/repository/zipball/83ce68039cc5c0cae1c35c3da80d9d3e23b57d37",
+                "reference": "83ce68039cc5c0cae1c35c3da80d9d3e23b57d37",
+                "shasum": ""
+            },
+            "require": {
+                "dashifen/exception": "^1",
+                "ext-json": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Repository\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "An object with read-only protected properties from which other objects can be extened.",
+            "time": "2020-07-29T15:21:59+00:00"
+        },
+        {
+            "name": "dashifen/transformer",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/transformer.git",
+                "reference": "95202e9740b145c0fb94821115dd049c1a0a2c34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/transformer/zipball/95202e9740b145c0fb94821115dd049c1a0a2c34",
+                "reference": "95202e9740b145c0fb94821115dd049c1a0a2c34",
+                "shasum": ""
+            },
+            "require": {
+                "dashifen/exception": "^1.2",
+                "php": ">=7.3"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Transformer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "An interface and abstract class useful for the production of objects which transform data.",
+            "time": "2020-03-11T14:56:21+00:00"
+        },
+        {
+            "name": "dashifen/wp-handler",
+            "version": "10.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/wp-handler.git",
+                "reference": "8145dbca30d936c688e3f9944c9d5c522660d288"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/wp-handler/zipball/8145dbca30d936c688e3f9944c9d5c522660d288",
+                "reference": "8145dbca30d936c688e3f9944c9d5c522660d288",
+                "shasum": ""
+            },
+            "require": {
+                "dashifen/collection": "^2",
+                "dashifen/exception": "^1",
+                "dashifen/repository": "^3",
+                "dashifen/transformer": "^2",
+                "php": ">=7.4"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\WPHandler\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "An object to define handlers for various WordPress action and filter hooks using protected methods. ",
+            "time": "2020-07-31T17:38:47+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}

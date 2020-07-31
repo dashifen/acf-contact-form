@@ -56,7 +56,6 @@ web_modules/
 .cache
 .parcel-cache
 .next
-out
 .nuxt
 dist
 .cache/
