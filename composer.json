@@ -20,7 +20,9 @@
     "sort-packages": true
   },
   "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
     "dashifen/acf-agent": "^2.2",
-    "dashifen/wp-handler": "^10.0"
+    "dashifen/wp-handler": "^10.0",
   }
 }

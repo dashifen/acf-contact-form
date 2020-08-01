@@ -14,6 +14,7 @@
 use Dashifen\ContactForm\ContactForm;
 use Dashifen\ContactForm\Agents\FieldGroupAgent;
 use Dashifen\WPHandler\Handlers\HandlerException;
+use Dashifen\ContactForm\Agents\CustomFormSettingsAgent;
 use Dashifen\WPHandler\Agents\Collection\Factory\AgentCollectionFactory;
 
 $autoloader = '';
@@ -27,6 +28,7 @@ require_once $autoloader;
   try {
     $contactForm = new Contactform();
     $agentCollectionFactory = new AgentCollectionFactory();
+    $agentCollectionFactory->registerAgent(CustomFormSettingsAgent::class);
     $agentCollectionFactory->registerAgent(FieldGroupAgent::class);
     $contactForm->setAgentCollection($agentCollectionFactory);
     $contactForm->initialize();

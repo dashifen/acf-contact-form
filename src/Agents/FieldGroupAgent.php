@@ -15,8 +15,22 @@ class FieldGroupAgent extends AbstractFieldGroupAgent
    */
   public function __construct(PluginHandlerInterface $handler)
   {
-    die($handler->getPluginDir() . '/acf');
-    parent::__construct($handler, $handler->getPluginDir() . '/acf');
+    parent::__construct($handler, realpath(__DIR__ . '/../../acf'));
+  }
+  
+  /**
+   * shouldExport
+   *
+   * Returns true if this plugin should export the specified ACF field group's
+   * JSON notation.
+   *
+   * @param string $acfName
+   *
+   * @return bool
+   */
+  protected function shouldExport(string $acfName): bool
+  {
+    return acf_get_field_group($acfName)['title'] === 'Contact Form';
   }
   
   /**
@@ -37,20 +51,5 @@ class FieldGroupAgent extends AbstractFieldGroupAgent
     
     add_filter('acf-agent-import', '__return_false');
     parent::initialize();
-  }
-  
-  /**
-   * shouldExport
-   *
-   * Returns true if this plugin should export the specified ACF field group's
-   * JSON notation.
-   *
-   * @param string $acfName
-   *
-   * @return bool
-   */
-  protected function shouldExport(string $acfName): bool
-  {
-    return acf_get_field_group($acfName)['title'] === 'Contact Form';
   }
 }
