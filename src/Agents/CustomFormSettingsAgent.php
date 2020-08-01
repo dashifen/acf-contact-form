@@ -28,6 +28,11 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
   {
     if (!$this->isInitialized()) {
       $this->addAction('acf/init', 'registerContactFormSettings');
+      
+      // we can't run the next action until the prior one is complete.  so,
+      // we run this one at 15 because the that one uses the default priority
+      // of 10.
+      
       $this->addAction('acf/init', 'addContactFormFields', 15);
       $this->addAction('admin_notices', 'notifyOnMissingSettings');
     }
@@ -54,7 +59,7 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
     }
   }
   
-  private function withACF (): bool
+  private function withACF(): bool
   {
     return function_exists('acf_add_options_page');
   }
@@ -67,7 +72,7 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
    *
    * @return void
    */
-  protected function addContactFormFields ()
+  protected function addContactFormFields()
   {
     if ($this->withACF()) {
       acf_add_local_field_group($this->handler->getContactFormFieldGroup());
@@ -82,27 +87,44 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
    *
    * @return void
    */
-  protected function notifyOnMissingSettings (): void
+  protected function notifyOnMissingSettings(): void
   {
-    if ($this->withACF()) {
-      $allData = array_merge(
-        $this->getSharingSettings(),
-        $this->getAnalyticsSettings()
-      );
+    if ($this->withACF() && $this->hasEmptySettings()) {
+      /** @noinspection HtmlUnknownTarget */
       
-      if ($this->isDataMissing($allData)) {
-        /** @noinspection HtmlUnknownTarget */
-        
-        $link = sprintf('<a href="%s">%s</a>',
-                        admin_url('admin.php?page=' . $this->sharingMenuSlug),
-                        $this->sharingMenuName); ?>
-        
-        <div class='notice notice-error'>
-          <p>Please fully complete the <?= $link ?> information
-            before launching this site.</p>
-        </div>
-      
-      <?php }
+      $link = sprintf(
+        '<a href="%s">%s</a>',
+        admin_url('options-general.php?page=contact-form-settings'),
+        'Contact Form settings'
+      ); ?>
+
+      <div class='notice notice-error'>
+        <p>Please fully complete the <?= $link ?> before publishing the
+          page on which the form will appear.</p>
+      </div>
+    
+    <?php }
+  }
+  
+  
+  /**
+   * hasEmptySettings
+   *
+   * Retrieves the current value of each of our settings and returns true if
+   * any are empty; false otherwise.
+   *
+   * @return bool
+   */
+  private function hasEmptySettings(): bool
+  {
+    $fieldGroup = $this->handler->getContactFormFieldGroup();
+    
+    foreach ($fieldGroup['fields'] as $field) {
+      if (empty(get_field($field['key'], 'option'))) {
+        return true;
+      }
     }
+    
+    return false;
   }
 }
