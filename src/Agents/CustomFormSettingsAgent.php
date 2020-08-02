@@ -75,7 +75,9 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
   protected function addContactFormFields()
   {
     if ($this->withACF()) {
-      acf_add_local_field_group($this->handler->getContactFormFieldGroup());
+      if (!empty($fieldGroup = $this->handler->getContactFormFieldGroup())) {
+        acf_add_local_field_group($fieldGroup);
+      }
     }
   }
   
@@ -110,8 +112,8 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
   /**
    * hasEmptySettings
    *
-   * Retrieves the current value of each of our settings and returns true if
-   * any are empty; false otherwise.
+   * Returns true if our contact form settings contains any empty fields and
+   * false otherwise.
    *
    * @return bool
    */
@@ -119,11 +121,44 @@ class CustomFormSettingsAgent extends AbstractPluginAgent
   {
     $fieldGroup = $this->handler->getContactFormFieldGroup();
     
-    foreach ($fieldGroup['fields'] as $field) {
-      if (empty(get_field($field['key'], 'option'))) {
+    // it's possible that the JSON file could not be found by our handler.
+    // in that case, the fields have to be empty because we don't even know
+    // what they are!
+    
+    return !empty($fieldGroup)
+      ? $this->findEmptyFields($fieldGroup['fields'])
+      : true;
+  }
+  
+  /**
+   * findEmptyFields
+   *
+   * Recursively searches through the fields of our contact form settings to
+   * determine if any of them are empty.
+   *
+   * @param array $fields
+   *
+   * @return bool
+   */
+  private function findEmptyFields(array $fields): bool
+  {
+    foreach ($fields as $field) {
+      
+      // as we search these fields, if we encounter sub-fields, we recursively
+      // call this method to look for empties within this group.  then, if we
+      // find empties in the sub-fields, or if the current field is empty, we
+      // return true because we've found at least one empty field.
+      
+      $emptySubFields = isset($field['sub-fields'])
+        && $this->findEmptyFields($field['sub-fields']);
+      
+      if ($emptySubFields || empty(get_field($field['key'], 'option'))) {
         return true;
       }
     }
+    
+    // otherwise, if we never returned true above, then we never found an
+    // empty field.  therefore, we return false here.
     
     return false;
   }

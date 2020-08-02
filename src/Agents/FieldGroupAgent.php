@@ -15,7 +15,7 @@ class FieldGroupAgent extends AbstractFieldGroupAgent
    */
   public function __construct(PluginHandlerInterface $handler)
   {
-    parent::__construct($handler, realpath(__DIR__ . '/../../acf'));
+    parent::__construct($handler, realpath(__DIR__ . '/../../assets/acf'));
   }
   
   /**

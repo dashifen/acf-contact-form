@@ -3,6 +3,7 @@
 namespace Dashifen\ContactForm;
 
 use Dashifen\WPHandler\Handlers\HandlerException;
+use Dashifen\ContactForm\Services\ContactFormEmitter;
 use Dashifen\WPHandler\Hooks\Factory\HookFactoryInterface;
 use Dashifen\WPHandler\Handlers\Plugins\AbstractPluginHandler;
 use Dashifen\WPHandler\Hooks\Collection\Factory\HookCollectionFactoryInterface;
@@ -18,7 +19,6 @@ class ContactForm extends AbstractPluginHandler
    * @param HookCollectionFactoryInterface|null $hookCollectionFactory
    *
    * @throws HandlerException
-   * @throws ContactFormException
    */
   public function __construct(
     ?HookFactoryInterface $hookFactory = null,
@@ -29,17 +29,11 @@ class ContactForm extends AbstractPluginHandler
     // now that our parent has handled the core functionality, we want to do
     // the work of this plugin.  namely, we want to load up the contact form's
     // JSON file into memory because we're going to need it later.
-    
-    $file = realpath(__DIR__ . '/../acf/contact-form.json');
-    
-    if (file_exists($file)) {
-      throw new ContactFormException(
-        'contact-form.json not found',
-        ContactFormException::FILE_NOT_FOUND
-      );
-    }
-    
-    $this->contactFormFieldGroup = json_decode(file_get_contents($file), true);
+  
+    $file = realpath(__DIR__ . '/../assets/acf/contact-form.json');
+    $this->contactFormFieldGroup = file_exists($file)
+      ? json_decode(file_get_contents($file), true)
+      : [];
   }
   
   /**
@@ -67,7 +61,29 @@ class ContactForm extends AbstractPluginHandler
   {
     if (!$this->isInitialized()) {
       $this->addAction('init', 'initializeAgents', 5);
+      $this->addAction('init', fn() => self::display());
     }
   }
   
+  /**
+   * display
+   *
+   * Displays the contact form based on the settings an administrator has set
+   * for this site.
+   *
+   * @return string
+   * @throws ContactFormException
+   */
+  public static function display(): string
+  {
+    // this is a static method, so we can't use $this here.  but, we can
+    // construct a new ContactForm object and use it to get at the field group
+    // information.  because we never call this instance's initialize method,
+    // we don't have to worry about it doing any WordPress stuff this time.
+    
+    $contactForm = new ContactForm();
+    $fieldGroup = $contactForm->getContactFormFieldGroup();
+    $emitter = new ContactFormEmitter($fieldGroup);
+    return $emitter->emit();
+  }
 }

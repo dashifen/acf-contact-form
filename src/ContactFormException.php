@@ -6,5 +6,5 @@ use Dashifen\Exception\Exception;
 
 class ContactFormException extends Exception
 {
-  public const FILE_NOT_FOUND = 404;      // :D
+  public const UNKNOWN_FIELD = 1;
 }

@@ -24,5 +24,6 @@
     "ext-json": "*",
     "dashifen/acf-agent": "^2.2",
     "dashifen/wp-handler": "^10.0",
+    "timber/timber": "^1.17"
   }
 }

@@ -1,0 +1,9 @@
+<!--suppress ALL -->
+<textarea
+  id="{{ field.id }}"
+  name="{{ field.name }}"
+  {% if field.required %}
+    aria-required="true"
+    required
+  {% endif %}
+>{{ field.value }}</textarea>

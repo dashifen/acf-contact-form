@@ -1,0 +1,10 @@
+<!--suppress ALL -->
+<input type="{{ field.type }}"
+  id="{{ field.id }}"
+  name="{{ field.name }}"
+  value="{{ field.value }}"
+  {% if field.required %}
+    aria-required="true"
+    required
+  {% endif %}
+>
