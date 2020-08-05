@@ -61,7 +61,6 @@ class ContactForm extends AbstractPluginHandler
   {
     if (!$this->isInitialized()) {
       $this->addAction('init', 'initializeAgents', 5);
-      $this->addAction('init', fn() => self::display());
     }
   }
   
