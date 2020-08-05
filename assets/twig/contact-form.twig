@@ -6,17 +6,19 @@
   <ol>
     {% for field in fields %}
       <li class="{{ field.class }}">
-        <label for="field.id"
+        <label for="{{ field.id }}"
           {% if field.required %}
             class="acf-contact-form-required"
           {% endif %}
         >
-          {{ field.label }}
-          {% if field.requried %}
-            <span class="screen-reader-text">
-        The {{ field.label }} is required.
-      </span>
-          {% endif %}
+          <span>
+            {{ field.label }}
+            {% if field.requried %}
+              <span class="screen-reader-text">
+                The {{ field.label }} is required.
+              </span>
+            {% endif %}
+          </span>
         </label>
 
         {% if field.type != 'textarea' %}

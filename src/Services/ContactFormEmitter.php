@@ -106,10 +106,8 @@ class ContactFormEmitter
   public function emit(): string
   {
     $twig = realpath(__DIR__ . '/../../assets/twig/contact-form.twig');
-    
-    ob_start();
-    Timber::render_string(file_get_contents($twig), $this->getTwigFormContext());
-    return ob_get_clean();
+    self::debug(Timber::fetch($twig, $this->getTwigFormContext()), true);
+    return Timber::fetch($twig, $this->getTwigFormContext());
   }
   
   /**
