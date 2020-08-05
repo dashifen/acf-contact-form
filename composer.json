@@ -2,6 +2,7 @@
   "name": "dashifen/acf-contact-form",
   "description": "A WordPress plugin that uses ACF to present a contact form.",
   "minimum-stability": "stable",
+  "type": "wordpress-plugin",
   "license": "MIT",
   "authors": [
     {
