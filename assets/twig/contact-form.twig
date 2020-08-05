@@ -35,8 +35,10 @@
           <textarea
             id="{{ field.id }}"
             name="{{ field.name }}"
-            aria-required="true"
-            required
+            {% if field.required %}
+              aria-required="true"
+              required
+            {% endif %}
           >{{ field.value }}</textarea>
         {% endif %}
       </li>

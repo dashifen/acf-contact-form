@@ -150,6 +150,9 @@ class ContactFormEmitter
    */
   private function getTwigFieldContext(string $name, string $type): array
   {
+    $required = in_array($name, $this->settings['contact-form-required-fields'])
+      || $name === "message";
+    
     return [
       'value'    => '',
       'type'     => $type,
@@ -157,7 +160,7 @@ class ContactFormEmitter
       'id'       => 'acf-contact-form-' . $name,
       'class'    => 'acf-contact-form-' . $name . '-container',
       'label'    => $this->getDefaultFieldLabel($name),
-      'required' => (int) in_array($name, $this->settings['contact-form-required-fields']),
+      'required' => (int) $required,
     ];
   }
   
