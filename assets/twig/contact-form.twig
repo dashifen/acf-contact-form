@@ -1,0 +1,48 @@
+<!--suppress HtmlFormInputWithoutLabel -->
+
+<fieldset id="acf-contact-form">
+  <legend>{{ legend }}</legend>
+  <p>{{ instructions }}</p>
+  <ol>
+    {% for field in fields %}
+      <li class="{{ field.class }}">
+        <label for="field.id"
+          {% if field.required %}
+            class="acf-contact-form-required"
+          {% endif %}
+        >
+          {{ field.label }}
+          {% if field.requried %}
+            <span class="screen-reader-text">
+        The {{ field.label }} is required.
+      </span>
+          {% endif %}
+        </label>
+
+        {% if field.type != 'textarea' %}
+          <input type="{{ field.type }}"
+            id="{{ field.id }}"
+            name="{{ field.name }}"
+            value="{{ field.value }}"
+            {% if field.required %}
+              aria-required="true"
+              required
+            {% endif %}
+          >
+        {% else %}
+          <textarea
+            id="{{ field.id }}"
+            name="{{ field.name }}"
+            {% if field.required %}
+              aria-required="true"
+              required
+            {% endif %}
+          >{{ field.value }}</textarea>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</fieldset>
+
+
+

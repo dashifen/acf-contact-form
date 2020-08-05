@@ -19,10 +19,7 @@ class ContactFormEmitter
    */
   public function __construct(array $fieldGroup)
   {
-    self::debug(get_field('field_5f24be54c775a', 'option'), true);
-    
     $this->settings = $this->getFieldGroupValues($fieldGroup['fields']);
-    self::debug($this->settings, true);
   }
   
   /**
@@ -37,19 +34,64 @@ class ContactFormEmitter
   private function getFieldGroupValues(array $fields): array
   {
     $settings = [];
+    
     foreach ($fields as $field) {
-      if (isset($field['sub_fields'])) {
-        $subFields = $this->getFieldGroupValues($field['sub_fields']);
-        self::debug($subFields, true);
+      $value = get_field($field['key'], 'option');
+      
+      // if our value is an array, we want to make sure it's flat before we
+      // add it to our settings.  luckily, we have a method that does just
+      // that defined below.
+      
+      if (is_array($value)) {
+        $settings = array_merge($settings, $this->flatten($value, $field['name']));
+      } else {
+        
+        // otherwise, we can just add it to our settings array directly.
+        // notice that we use the name here even though we selected with the
+        // key
+        
+        $settings[$field['name']] = $value;
       }
-      
-      
-      $settings[$field['name']] = get_field($field['key'], 'option');
+    }
+    return $settings;
+  }
+  
+  /**
+   * flatten
+   *
+   * Recursively flattens arrays of ACF values producing an array of fields
+   * and values that we can access without worrying about how they might have
+   * been organized into groups in the actual field group.
+   *
+   * @param array  $values
+   * @param string $field
+   *
+   * @return array
+   */
+  private function flatten(array $values, string $field = ''): array
+  {
+    // first, if this isn't an associative array, then we'll just return it.
+    // this is useful for fields like checkboxes and other data that ACF needs
+    // to be an array.
+    
+    if (!acf_is_associative_array($values)) {
+      return [$field => $values];
     }
     
+    // otherwise, we'll loop over our values and, if any of them are an array,
+    // we recursively call this method to flatten those arrays as well.  for
+    // non-array values, we just add them to the $flattened array.
     
+    $flattened = [];
+    foreach ($values as $field => $value) {
+      if (is_array($value)) {
+        $flattened = array_merge($flattened, $this->flatten($value, $field));
+      } else {
+        $flattened[$field] = $value;
+      }
+    }
     
-    return $settings;
+    return $flattened;
   }
   
   /**
@@ -63,8 +105,11 @@ class ContactFormEmitter
    */
   public function emit(): string
   {
-    $twig = realpath(__DIR__ . '/../../assets/twigs/contact-form.twig');
-    return Timber::fetch($twig, $this->getTwigFormContext());
+    $twig = realpath(__DIR__ . '/../../assets/twig/contact-form.twig');
+    
+    ob_start();
+    Timber::render_string(file_get_contents($twig), $this->getTwigFormContext());
+    return ob_get_clean();
   }
   
   /**
@@ -83,18 +128,16 @@ class ContactFormEmitter
     // label, type, name, and value.  many of these values are already in
     // our settings property, but others we may construct based on those data.
     
-    self::debug(
-      [
-        'legend'       => $this->settings['contact-form-legend'],
-        'instructions' => $this->settings['contact-form-instructions'],
-        'fields'       => [
-          $this->getTwigFieldContext('name', 'text'),
-          $this->getTwigFieldContext('email', 'email'),
-          $this->getTwigFieldContext('website', 'url'),
-          $this->getTwigFieldContext('message', 'textarea'),
-        ],
-      ], true
-    );
+    return [
+      'legend'       => $this->settings['contact-form-legend'],
+      'instructions' => $this->settings['contact-form-instructions'],
+      'fields'       => [
+        $this->getTwigFieldContext('name', 'text'),
+        $this->getTwigFieldContext('email', 'email'),
+        $this->getTwigFieldContext('website', 'url'),
+        $this->getTwigFieldContext('message', 'textarea'),
+      ],
+    ];
   }
   
   /**
@@ -110,15 +153,14 @@ class ContactFormEmitter
    */
   private function getTwigFieldContext(string $name, string $type): array
   {
-    // class, id, required, label, type, name, and value
-    
     return [
-      'value' => '',
-      'type'  => $type,
-      'name'  => $name,
-      'id'    => 'acf-contact-form-' . $name,
-      'class' => 'acf-contact-form-' . $name . '-container',
-      'label' => $this->getDefaultFieldLabel($name),
+      'value'    => '',
+      'type'     => $type,
+      'name'     => $name,
+      'id'       => 'acf-contact-form-' . $name,
+      'class'    => 'acf-contact-form-' . $name . '-container',
+      'label'    => $this->getDefaultFieldLabel($name),
+      'required' => (int) in_array($name, $this->settings['contact-form-required-fields']),
     ];
   }
   
