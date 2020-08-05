@@ -71,10 +71,10 @@ class ContactForm extends AbstractPluginHandler
    * Displays the contact form based on the settings an administrator has set
    * for this site.
    *
-   * @return string
+   * @return void
    * @throws ContactFormException
    */
-  public static function display(): string
+  public static function display(): void
   {
     // this is a static method, so we can't use $this here.  but, we can
     // construct a new ContactForm object and use it to get at the field group
