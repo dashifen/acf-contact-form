@@ -100,14 +100,13 @@ class ContactFormEmitter
    * Emits the contact form by constructing a context used to render a twig
    * template.
    *
-   * @return string
+   * @return void
    * @throws ContactFormException
    */
-  public function emit(): string
+  public function emit(): void
   {
     $twig = realpath(__DIR__ . '/../../assets/twig/contact-form.twig');
-    self::debug(Timber::fetch($twig, $this->getTwigFormContext()), true);
-    return Timber::fetch($twig, $this->getTwigFormContext());
+    Timber::render_string(file_get_contents($twig), $this->getTwigFormContext());
   }
   
   /**

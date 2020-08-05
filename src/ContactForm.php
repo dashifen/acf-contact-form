@@ -84,6 +84,6 @@ class ContactForm extends AbstractPluginHandler
     $contactForm = new ContactForm();
     $fieldGroup = $contactForm->getContactFormFieldGroup();
     $emitter = new ContactFormEmitter($fieldGroup);
-    return $emitter->emit();
+    $emitter->emit();
   }
 }
