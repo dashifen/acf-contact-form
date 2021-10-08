@@ -5,10 +5,7 @@
  * Description: A WordPress plugin that uses ACF to present a contact form.
  * Author URI: mailto:dashifen@dashifen.com
  * Author: David Dashifen Kees
- * Version: 1.0.0
- *
- * @noinspection PhpStatementHasEmptyBodyInspection
- * @noinspection PhpIncludeInspection
+ * Version: 0.10.0
  */
 
 use Dashifen\ContactForm\ContactForm;
@@ -17,12 +14,9 @@ use Dashifen\WPHandler\Handlers\HandlerException;
 use Dashifen\ContactForm\Agents\CustomFormSettingsAgent;
 use Dashifen\WPHandler\Agents\Collection\Factory\AgentCollectionFactory;
 
-$autoloader = '';
-if (file_exists($autoloader = __DIR__ . '/vendor/autoload.php'));
-elseif (file_exists($autoloader = dirname(ABSPATH) . '/deps/vendor/autoload.php'));
-elseif (file_exists($autoloader = dirname(ABSPATH) . '/vendor/autoload.php'));
-elseif (file_exists($autoloader = ABSPATH . 'vendor/autoload.php'));
-require_once $autoloader;
+if (!class_exists('Dashifen\ContactForm\ContactForm')) {
+  require_once 'vendor/autoload.php';
+}
 
 (function () {
   try {
